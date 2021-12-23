@@ -1,10 +1,14 @@
-﻿namespace SampleRESTAPI.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SampleRESTAPI.Dtos
 {
     public class CourseForCreateDto
     {
+        [Required]
         public string Title { get; set; }
 
-        //[Column(TypeName ="decimal(5,2)")]
+        [Required]
+        [Range(0,10)]
         public int Credits { get; set; }
     }
 }

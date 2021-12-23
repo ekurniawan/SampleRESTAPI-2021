@@ -1,4 +1,6 @@
-﻿namespace SampleRESTAPI.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SampleRESTAPI.Dtos
 {
     public class CourseDto
     {
