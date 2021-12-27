@@ -77,9 +77,17 @@ namespace SampleRESTAPI.Data
             return lstRole;
         }
 
-        public Task<List<string>> GetRolesFromUser(string username)
+        public async Task<List<string>> GetRolesFromUser(string username)
         {
-            throw new System.NotImplementedException();
+            List<string> lstRoles = new List<string>();
+            var user = await _userManager.FindByEmailAsync(username);
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach(var role in roles)
+            {
+                lstRoles.Add(role);
+            }
+            return lstRoles;
         }
 
         public async Task Registration(CreateUserDto user)

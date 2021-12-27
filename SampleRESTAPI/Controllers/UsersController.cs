@@ -71,5 +71,12 @@ namespace SampleRESTAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("RolesByUser/{username}")]
+        public async Task<ActionResult<List<string>>> GetRolesByUser(string username)
+        {
+            var results = await _user.GetRolesFromUser(username);
+            return Ok(results); 
+        }
     }
 }
