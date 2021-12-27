@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SampleRESTAPI.Dtos;
 using SampleRESTAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,12 +29,24 @@ namespace SampleRESTAPI.Data
             throw new System.NotImplementedException();
         }
 
+        public IEnumerable<UserDto> GetAllUser()
+        {
+            List<UserDto> users = new List<UserDto>();
+            var results = _userManager.Users;
+            foreach(var user in results)
+            {
+                users.Add(new UserDto { Username = user.UserName });
+            }
+
+            return users;
+        }
+
         public Task<List<string>> GetRolesFromUser(string username)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task Registration(User user)
+        public async Task Registration(CreateUserDto user)
         {
             try
             {
