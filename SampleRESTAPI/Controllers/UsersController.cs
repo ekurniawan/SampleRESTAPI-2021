@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleRESTAPI.Data;
 using SampleRESTAPI.Dtos;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace SampleRESTAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -18,6 +20,7 @@ namespace SampleRESTAPI.Controllers
             _user = user;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Registration(CreateUserDto user)
         {
@@ -77,6 +80,24 @@ namespace SampleRESTAPI.Controllers
         {
             var results = await _user.GetRolesFromUser(username);
             return Ok(results); 
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("Authentication")]
+        public async Task<ActionResult<User>> Authentication(CreateUserDto createUserDto)
+        {
+            try
+            {
+                var user = await _user.Authenticate(createUserDto.Username, createUserDto.Password);
+                if (user == null)
+                    return BadRequest("username/password tidak tepat");
+                return Ok(user);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

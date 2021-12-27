@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleRESTAPI.Data;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace SampleRESTAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
@@ -24,7 +26,7 @@ namespace SampleRESTAPI.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
        
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDto>>> Get()
         {
@@ -45,6 +47,7 @@ namespace SampleRESTAPI.Controllers
             return Ok(dtos);
         }
 
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDto>> Get(int id)
         {
