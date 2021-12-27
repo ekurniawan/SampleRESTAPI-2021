@@ -37,5 +37,39 @@ namespace SampleRESTAPI.Controllers
         {
             return Ok(_user.GetAllUser());
         }
+
+        [HttpPost("Role")]
+        public async Task<ActionResult> AddRole(CreateRoleDto roleDto)
+        {
+            try
+            {
+                await _user.AddRole(roleDto.RoleName);
+                return Ok($"Tambah role {roleDto.RoleName} berhasil");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Role")]
+        public ActionResult<IEnumerable<CreateRoleDto>> GetAllRole()
+        {
+            return Ok(_user.GetRoles());
+        }
+
+        [HttpPost("UserInRole")]
+        public async Task<ActionResult> AddUserToRole(string username,string role)
+        {
+            try
+            {
+                await _user.AddUserToRole(username, role);
+                return Ok($"Berhasil menambahkan user {username} ke role {role}");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
